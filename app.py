@@ -1,16 +1,22 @@
+import os
 from flask import Flask, request, render_template, jsonify
-from cadastrar import *
-from consultar import *
-from atualizar import *
-from deletar import *
+
+from settings import APP_FOLDER
+from cadastrar import cadastrar_pessoas2, cadastrar_contatos2
+from consultar import consultar_pessoas2, consultar_contatos2, consultar_pessoas_contatos2
+from atualizar import atualizar_pessoas2, atualizar_contatos_telefone2, atualizar_contatos_email2
+from deletar import deletar_pessoas2, deletar_contatos2
+from db import mysql
 
 
 app = Flask(__name__)
+app.config.from_pyfile(os.path.join(APP_FOLDER, "settings.py"))
+mysql.init_app(app)
 
-
+@app.route('/index', methods=['GET'])
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('main.html')
 
 
 @app.route('/pessoas', methods=['GET'])
@@ -110,6 +116,3 @@ def deletar_contatos1():
     cpf = request.form['id_cpf_deletar']
     return deletar_contatos2 (cpf)
 
-
-if __name__ == '__main__':
-    app.run(host = 'localhost', port = 5000, debug = True)

@@ -1,51 +1,29 @@
 from flask import Flask, request, render_template, jsonify
-from flaskext.mysql import MySQL
-import config
+from db import mysql
 
 
-mysql = MySQL()
-
-
-app = Flask(__name__)
-
-
-app.config['MYSQL_DATABASE_DB'] = config.DB
-app.config['MYSQL_DATABASE_USER'] = config.USER
-app.config['MYSQL_DATABASE_PASSWORD'] = config.PASS
-app.config['MYSQL_DATABASE_HOST'] = config.DB_URL
-
-
-mysql.init_app(app)
+def _select_sql(raw_sql):
+    cursor = mysql.get_db().connect()
+    cursor.execute(raw_sql)
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return result
 
 
 def consultar_pessoas2():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute('select * from python_crud_pessoas.pessoas;')
-    autores = cursor.fetchall()
-    conn.commit()
+    autores = _select_sql('SELECT * FROM PYTHON_CRUD_PESSOAS.PESSOAS;')
     return jsonify(autores)
-    cursor.close()
-    conn.close()
 
 
 def consultar_contatos2():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute('select * from python_crud_pessoas.contatos;')
-    nomes = cursor.fetchall()
-    conn.commit()
+    nomes = _select_sql('SELECT * FROM PYTHON_CRUD_PESSOAS.CONTATOS;')
     return jsonify(nomes)
-    cursor.close()
-    conn.close()
 
 
 def consultar_pessoas_contatos2():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute('select p.nome, p.cpf, c.telefone, c.email from python_crud_pessoas.pessoas as p inner join python_crud_pessoas.contatos as c on c.id_pessoas = p.id;')
-    nomes = cursor.fetchall()
-    conn.commit()
+    SQL_STATEMENT = 'SELECT P.NOME, P.CPF, C.TELEFONE, C.EMAIL '\
+        'FROM PYTHON_CRUD_PESSOAS.PESSOAS AS P '\
+        'INNER JOIN PYTHON_CRUD_PESSOAS.CONTATOS AS C ON C.ID_PESSOAS = P.ID;'
+    nomes = _select_sql(SQL_STATEMENT)
     return jsonify(nomes)
-    cursor.close()
-    conn.close()
