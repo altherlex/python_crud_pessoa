@@ -1,8 +1,7 @@
-from flask import render_template, Blueprint, request, jsonify
+from flask import render_template, Blueprint, request, jsonify, url_for, redirect
 
-from db import select
+from db import select, insert
 # FIXME: deletar dependencias
-from cadastrar import cadastrar_contatos2
 from atualizar import atualizar_contatos_telefone2, atualizar_contatos_email2
 from deletar import deletar_contatos2
 
@@ -16,7 +15,12 @@ def cadastrar_contatos0():
     id_pessoas = request.form['id_pessoas']
     telefone = request.form['id_telefone']
     email = request.form['id_email']
-    return cadastrar_contatos2(id_pessoas, telefone, email)
+    insert(
+        'INSERT INTO PYTHON_CRUD_PESSOAS.CONTATOS (ID_PESSOAS, TELEFONE, EMAIL) VALUES (%s, %s, %s);',
+        (id_pessoas, telefone, email)
+    )
+    return redirect(url_for('contatos.consultar_contatos1'))
+
 
 
 @contatos_view.route('/list', methods=['GET'])

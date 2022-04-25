@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">CPF</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pessoa in list %}
+            <tr>
+              <th scope="row">{{pessoa[0]}}</th>
+              <td>{{pessoa[1]}}</td>
+              <td>{{pessoa[2]}}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}
