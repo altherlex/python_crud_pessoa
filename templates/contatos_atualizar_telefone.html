@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar</title>
-</head>
-<body>
+{% extends 'layout.html' %}
 
+{% block content %}
     <h3>Atualizar Telefone de Pessoa Cadastrada</h3>
-    <form action = "{{ url_for('atualizar_contatos_telefone0') }}" method = "POST">
+    <form action = "{{ url_for('contatos.atualizar_contatos_telefone0') }}" method = "POST">
         <label for="">CPF: </label>
         <input type="text" name="id_cpf_atualizar" id="id_cpf_atualizar"><br><br>
         <label for="">Telefone: </label>
@@ -17,11 +10,4 @@
         <input type="submit" name="retorno" value="Atualizar">
     </form><br>
 
-    <script>
-        var botao = document.createElement('button');
-        botao.innerHTML = '<a href="http://localhost:5000/">Menu</a>';
-        document.body.appendChild(botao);
-    </script>
-
-</body>
-</html>
+{% endblock %}

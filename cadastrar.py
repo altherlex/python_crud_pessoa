@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify
-from db import mysql
+# from db import mysql
+from flask import g
 
 
 def cadastrar_pessoas2(nome, cpf):
